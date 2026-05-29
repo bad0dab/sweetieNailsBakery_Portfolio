@@ -9,5 +9,12 @@ import { Component } from '@angular/core';
 })
 export class Nav {
   menuOpen = false;
-  toggleMenu() { this.menuOpen = !this.menuOpen; }
+
+  toggleMenu() {
+    this.menuOpen = !this.menuOpen;
+  }
+
+  closeMenu() {
+    this.menuOpen = false;
+  }
 }

@@ -5,15 +5,20 @@
       <h2 class="section-title">Services</h2>
     </div>
     <div class="services__grid">
-      <div class="service-card" *ngFor="let s of services">
-        <span class="service-card__icon">{{ s.icon }}</span>
-        <h3 class="service-card__name">{{ s.name }}</h3>
-        <p class="service-card__desc">{{ s.desc }}</p>
-        <div class="service-card__meta">
-          <span class="service-card__duration">{{ s.duration }}</span>
-          <span class="service-card__price">{{ s.price }}</span>
+      @for (s of services; track s.name) {
+        <div class="service-card">
+          <div class="service-card__top">
+            <span class="service-card__icon">{{ s.icon }}</span>
+            <span class="service-card__price">{{ s.price }}</span>
+          </div>
+          <h3 class="service-card__name">{{ s.name }}</h3>
+          <p class="service-card__desc">{{ s.desc }}</p>
+          <div class="service-card__footer">
+            <span class="service-card__duration">⏱ {{ s.duration }}</span>
+            <a href="#contact" class="service-card__link">Book →</a>
+          </div>
         </div>
-      </div>
+      }
     </div>
     <div class="services__cta">
       <a href="#contact" class="btn btn--primary">Book Your Appointment</a>

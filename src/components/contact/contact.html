@@ -3,43 +3,47 @@
     <div class="contact__header">
       <p class="section-eyebrow">Get in Touch</p>
       <h2 class="section-title">Book a Session</h2>
-      <p class="section-sub">Ready to treat your nails? Fill out the form and I'll get back to you within 24 hours.</p>
+      <p class="section-sub" style="margin-inline:auto">Ready to treat your nails? Fill out the form and I'll get back to you within 24 hours.</p>
     </div>
 
     <div class="contact__layout">
-      <form class="contact__form" (submit)="onSubmit($event)" *ngIf="!submitted">
-        <div class="form-row">
-          <div class="form-group">
-            <label>Your Name</label>
-            <input type="text" placeholder="e.g. Sofia Rossi" required />
+      @if (!submitted) {
+        <form class="contact__form" (submit)="onSubmit($event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Your Name</label>
+              <input type="text" placeholder="e.g. Sofia Rossi" required />
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" placeholder="you@example.com" required />
+            </div>
           </div>
           <div class="form-group">
-            <label>Email</label>
-            <input type="email" placeholder="you@example.com" required />
+            <label>Service</label>
+            <select>
+              <option value="">Select a service...</option>
+              <option>Gel Extensions</option>
+              <option>Nail Art Design</option>
+              <option>Soft Gel Overlay</option>
+              <option>Nail Infills</option>
+            </select>
           </div>
-        </div>
-        <div class="form-group">
-          <label>Service</label>
-          <select>
-            <option value="">Select a service...</option>
-            <option>Gel Extensions</option>
-            <option>Nail Art Design</option>
-            <option>Soft Gel Overlay</option>
-            <option>Nail Infills</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Message</label>
-          <textarea rows="4" placeholder="Tell me about the look you have in mind..."></textarea>
-        </div>
-        <button type="submit" class="btn btn--primary btn--full">Send Enquiry ✦</button>
-      </form>
+          <div class="form-group">
+            <label>Message</label>
+            <textarea rows="4" placeholder="Tell me about the look you have in mind..."></textarea>
+          </div>
+          <button type="submit" class="btn btn--primary btn--full">Send Enquiry ✦</button>
+        </form>
+      }
 
-      <div class="contact__success" *ngIf="submitted">
-        <span class="success-icon">🌸</span>
-        <h3>Thank you!</h3>
-        <p>Your message was received. I'll be in touch soon to confirm your booking.</p>
-      </div>
+      @if (submitted) {
+        <div class="contact__success">
+          <span class="success-icon">🌸</span>
+          <h3>Thank you!</h3>
+          <p>Your message was received. I'll be in touch soon to confirm your booking.</p>
+        </div>
+      }
 
       <div class="contact__info">
         <div class="info-item">
@@ -53,14 +57,14 @@
           <span class="info-icon">⏰</span>
           <div>
             <strong>Orario</strong>
-            <p>N/A, N/A</p>
+            <p>N/A</p>
           </div>
         </div>
         <div class="info-item">
           <span class="info-icon">📸</span>
           <div>
             <strong>Instagram</strong>
-            <a href="https://www.instagram.com/sweetienailsbakery/" target="_blank">@sweetienailsbakery</a>
+            <a href="https://www.instagram.com/sweetienailsbakery/" target="_blank">&#64;sweetienailsbakery</a>
           </div>
         </div>
       </div>
@@ -68,5 +72,7 @@
   </div>
 
   <footer class="footer">
-<p>© {{ currentYear }} Sweetie Nails &nbsp;·&nbsp; Crafted with <span style="color:var(--rose)">♥</span> in Florence</p>  </footer>
+    <div class="footer__line"></div>
+    <p>© {{ currentYear }} Sweetie Nails &nbsp;·&nbsp; Crafted with <span class="footer__heart">♥</span> in Florence</p>
+  </footer>
 </section>

@@ -1,16 +1,15 @@
 <section class="gallery" id="gallery">
   <div class="gallery__header">
-    <p class="section-eyebrow">Portfolio</p>
-    <h2 class="section-title">The Collection</h2>
-    <p class="section-sub">A curated selection of recent work — each set custom designed for the individual.</p>
+    <div class="gallery__header-left">
+      <p class="section-eyebrow">Portfolio</p>
+      <h2 class="section-title">The Collection</h2>
+      <p class="section-sub">A curated selection of recent work — each set custom designed for the individual.</p>
+    </div>
+    <div class="gallery__count">0{{ filtered.length }}</div>
   </div>
   <div class="gallery__filters">
     @for (f of filters; track f) {
-      <button
-        class="filter-btn"
-        [class.active]="activeFilter === f"
-        (click)="activeFilter = f"
-      >{{ f }}</button>
+      <button class="filter-btn" [class.active]="activeFilter === f" (click)="activeFilter = f">{{ f }}</button>
     }
   </div>
   <div class="gallery__grid">
