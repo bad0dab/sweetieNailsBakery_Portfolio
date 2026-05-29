@@ -143,3 +143,18 @@
   .contact__layout { grid-template-columns: 1fr; }
   .form-row { grid-template-columns: 1fr; }
 }
+
+.form-error {
+  font-size: 0.82rem;
+  color: var(--rose);
+  background: var(--blush);
+  padding: 0.7rem 1rem;
+  border-radius: 10px;
+  border: 1px solid var(--petal);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
