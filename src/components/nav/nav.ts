@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-nav',
@@ -9,12 +10,16 @@ import { Component } from '@angular/core';
 })
 export class Nav {
   menuOpen = false;
+  darkMode = false;
 
-  toggleMenu() {
-    this.menuOpen = !this.menuOpen;
-  }
+  constructor(@Inject(PLATFORM_ID) private platformId: object) {}
 
-  closeMenu() {
-    this.menuOpen = false;
+  toggleMenu() { this.menuOpen = !this.menuOpen; }
+  closeMenu()  { this.menuOpen = false; }
+
+  toggleDark() {
+    if (!isPlatformBrowser(this.platformId)) return;
+    this.darkMode = !this.darkMode;
+    document.documentElement.classList.toggle('dark', this.darkMode);
   }
 }

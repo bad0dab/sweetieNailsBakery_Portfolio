@@ -11,9 +11,18 @@
     <li><a href="#contact"  (click)="closeMenu()" class="nav__cta">Book Now</a></li>
   </ul>
 
-  <button class="nav__burger" (click)="toggleMenu()" [class.active]="menuOpen" aria-label="Toggle menu">
-    <span></span>
-    <span></span>
-    <span></span>
-  </button>
+  <div class="nav__right">
+     <p>
+      @if (!darkMode) {Turn on dark mode} @else {Turn on light mode}
+    </p>
+    <button class="nav__dark-btn" (click)="toggleDark()" [attr.aria-label]="darkMode ? 'Light mode' : 'Dark mode'">
+      @if (!darkMode) { 🌙 } @else { ☀️ }
+    </button>
+   
+    <button class="nav__burger" (click)="toggleMenu()" [class.active]="menuOpen" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
 </nav>

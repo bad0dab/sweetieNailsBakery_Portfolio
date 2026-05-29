@@ -1,3 +1,6 @@
+// FIX, USER MUST INSERT EVERYTHING INTO FORM IN ORDER TO SEND THE EMAIL, OTHERWISE IT WON'T WORK
+
+
 import { Component, Inject, PLATFORM_ID, ChangeDetectorRef, NgZone } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { isPlatformBrowser } from '@angular/common';
