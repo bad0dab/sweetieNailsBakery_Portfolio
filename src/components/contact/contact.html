@@ -22,12 +22,12 @@
           <div class="form-group">
             <label>Service</label>
             <select [(ngModel)]="service" name="service">
-              <option value="" >Select a service...</option>
-              <option>Service 1</option>
-              <option>Service 2</option>
-              <option>Service 3</option>
+              <option value="">Select a service...</option>
+              <option>Gel Extensions</option>
+              <option>Nail Art Design</option>
+              <option>Soft Gel Overlay</option>
+              <option>Nail Infills</option>
               <option>Custom order</option>
-
             </select>
           </div>
           <div class="form-group">
@@ -36,11 +36,11 @@
           </div>
 
           @if (error) {
-            <p class="form-error">Something went wrong. Please try again or DM on Instagram.</p>
+            <p class="form-error">{{ errorMsg }}</p>
           }
 
           <button type="submit" class="btn btn--primary btn--full" [disabled]="sending">
-            {{ sending ? 'Sending...' : 'Send Enquiry ✦' }}
+            {{ sending ? 'Validating & Sending...' : 'Send Enquiry ✦' }}
           </button>
         </form>
       }
