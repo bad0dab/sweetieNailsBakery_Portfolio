@@ -14,11 +14,14 @@ export class Contact {
   sending     = false;
   error       = false;
   errorMsg    = '';
+  countdown   = 0;
   currentYear = new Date().getFullYear();
 
   private SERVICE_ID         = 'service_l8ums9n';
   private TEMPLATE_ID_NOTIFY = 'template_g82rvur';
   private PUBLIC_KEY         = 'DeVcUcw3keRhgO2t3';
+
+  private countdownTimer: any = null;
 
   name    = '';
   email   = '';
@@ -46,6 +49,40 @@ export class Contact {
     } catch {
       return true;
     }
+  }
+
+  /** Clears all form fields back to their initial state. */
+  private resetForm() {
+    this.name    = '';
+    this.email   = '';
+    this.service = '';
+    this.message = '';
+    this.error   = false;
+    this.errorMsg = '';
+  }
+
+  /** Shows the success message, then counts down before restoring the form. */
+  private startCountdown(seconds: number) {
+    this.countdown = seconds;
+
+    if (this.countdownTimer) {
+      clearInterval(this.countdownTimer);
+    }
+
+    this.countdownTimer = setInterval(() => {
+      this.zone.run(() => {
+        this.countdown -= 1;
+
+        if (this.countdown <= 0) {
+          clearInterval(this.countdownTimer);
+          this.countdownTimer = null;
+          this.submitted = false;
+          this.resetForm();
+        }
+
+        this.cdr.detectChanges();
+      });
+    }, 1000);
   }
 
   async onSubmit(e: Event) {
@@ -98,6 +135,8 @@ export class Contact {
         this.submitted = true;
         this.sending   = false;
         this.cdr.detectChanges();
+
+        this.startCountdown(3);
       });
     } catch (err: any) {
       console.error('EmailJS error:', err);

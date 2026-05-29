@@ -81,6 +81,24 @@
 }
 .contact__success p { color: var(--muted); font-size: 0.9rem; }
 
+.contact__countdown {
+  margin-top: 1.2rem;
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+.contact__countdown strong {
+  display: inline-block;
+  min-width: 1.4em;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.05rem;
+  background: var(--grad-vivid);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 .contact__info {
   display: flex;
   flex-direction: column;

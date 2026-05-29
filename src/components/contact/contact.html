@@ -50,6 +50,10 @@
           <span class="success-icon">🌸</span>
           <h3>Thank you!</h3>
           <p>Your message was received. I'll be in touch soon to confirm your booking.</p>
+          <p class="contact__countdown">
+            Returning to the form in <strong>{{ countdown }}</strong>
+            {{ countdown === 0 ? 'second' : 'seconds' }}…
+          </p>
         </div>
       }
 
