@@ -1,4 +1,4 @@
-import { Component, Inject, PLATFORM_ID, ChangeDetectorRef } from '@angular/core';
+import { Component, Inject, PLATFORM_ID, ChangeDetectorRef, NgZone } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { isPlatformBrowser } from '@angular/common';
 
@@ -26,7 +26,8 @@ export class Contact {
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: object,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private zone: NgZone
   ) {}
 
   async onSubmit(e: Event) {
@@ -50,13 +51,18 @@ export class Contact {
         },
         { publicKey: this.PUBLIC_KEY }
       );
-      this.submitted = true;
+      this.zone.run(() => {
+        this.submitted = true;
+        this.sending   = false;
+        this.cdr.detectChanges();
+      });
     } catch (err: any) {
       console.error('EmailJS error:', err);
-      this.error = true;
-    } finally {
-      this.sending = false;
-      this.cdr.detectChanges();
+      this.zone.run(() => {
+        this.error   = true;
+        this.sending = false;
+        this.cdr.detectChanges();
+      });
     }
   }
 }
