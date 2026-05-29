@@ -156,9 +156,6 @@ html.dark .nav__links {
 html.dark .about__portrait-frame,
 html.dark .service-card,
 html.dark .gallery__card,
-html.dark .contact__form input,
-html.dark .contact__form select,
-html.dark .contact__form textarea,
 html.dark .contact__info,
 html.dark .contact__success {
   background: #1e1028;
@@ -166,10 +163,40 @@ html.dark .contact__success {
   color: var(--text);
 }
 
+
 html.dark .form-group input,
 html.dark .form-group select,
-html.dark .form-group textarea {
-  background: #1e1028;
-  color: var(--text);
-  border-color: #3a2248;
+html.dark .form-group textarea,
+html.dark .contact__form input,
+html.dark .contact__form select,
+html.dark .contact__form textarea {
+  background: #1e1028 !important;
+  color: var(--text) !important;
+  border-color: #3a2248 !important;
+  -webkit-text-fill-color: var(--text) !important;
 }
+
+html.dark .form-group select option {
+  background: #1e1028 !important;
+  color: var(--text) !important;
+}
+
+
+html.dark .form-group input::placeholder,
+html.dark .form-group textarea::placeholder,
+html.dark .contact__form input::placeholder,
+html.dark .contact__form textarea::placeholder {
+  color: #cbb3e2 !important;
+  -webkit-text-fill-color: #cbb3e2 !important;
+  opacity: 1 !important;
+}
+
+html.dark .form-group input::-webkit-input-placeholder,
+html.dark .form-group textarea::-webkit-input-placeholder {
+  color: #cbb3e2 !important;
+  -webkit-text-fill-color: #cbb3e2 !important;
+  opacity: 1 !important;
+}
+
+html.dark .contact__success h3 { color: var(--text); }
+html.dark .contact__success p  { color: var(--muted); }
