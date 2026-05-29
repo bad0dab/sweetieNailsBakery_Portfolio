@@ -1,0 +1,32 @@
+<section class="gallery" id="gallery">
+  <div class="gallery__header">
+    <p class="section-eyebrow">Portfolio</p>
+    <h2 class="section-title">The Collection</h2>
+    <p class="section-sub">A curated selection of recent work — each set custom designed for the individual.</p>
+  </div>
+  <div class="gallery__filters">
+    @for (f of filters; track f) {
+      <button
+        class="filter-btn"
+        [class.active]="activeFilter === f"
+        (click)="activeFilter = f"
+      >{{ f }}</button>
+    }
+  </div>
+  <div class="gallery__grid">
+    @for (item of filtered; track item.id) {
+      <div class="gallery__card">
+        <div class="gallery__card-visual" [style.background]="item.color">
+          <span class="gallery__card-emoji">{{ item.emoji }}</span>
+          <div class="gallery__card-overlay">
+            <span class="gallery__card-style">{{ item.style }}</span>
+          </div>
+        </div>
+        <div class="gallery__card-info">
+          <span class="gallery__card-name">{{ item.label }}</span>
+          <span class="gallery__card-tag">{{ item.tag }}</span>
+        </div>
+      </div>
+    }
+  </div>
+</section>

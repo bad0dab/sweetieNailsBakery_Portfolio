@@ -1,0 +1,133 @@
+.contact {
+  background: var(--ivory);
+  padding: 6rem 3rem 0;
+}
+
+.contact__inner {
+  max-width: 900px;
+  margin-inline: auto;
+}
+
+.contact__header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.contact__layout {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 3rem;
+  align-items: start;
+}
+
+.contact__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.form-group label {
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--bark);
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--dust);
+  border-radius: 12px;
+  background: white;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s;
+  resize: none;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--rose);
+  box-shadow: 0 0 0 3px rgba(232,130,154,0.12);
+}
+
+.btn--full { width: 100%; justify-content: center; }
+
+.contact__success {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: white;
+  border-radius: 20px;
+  border: 1px solid var(--blush);
+}
+.success-icon { font-size: 3rem; }
+.contact__success h3 {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 400;
+  color: var(--text);
+  margin: 1rem 0 0.5rem;
+}
+.contact__success p { color: var(--muted); font-size: 0.9rem; }
+
+.contact__info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 2rem;
+  background: white;
+  border-radius: 20px;
+  border: 1px solid var(--blush);
+  height: fit-content;
+}
+
+.info-item {
+  display: flex;
+  gap: 0.8rem;
+  align-items: flex-start;
+}
+.info-icon { font-size: 1.2rem; margin-top: 0.1rem; }
+
+.info-item strong {
+  display: block;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--bark);
+  font-weight: 500;
+  margin-bottom: 0.2rem;
+}
+.info-item p { font-size: 0.9rem; color: var(--muted); }
+
+.footer {
+  margin-top: 5rem;
+  padding: 2rem;
+  text-align: center;
+  border-top: 1px solid var(--blush);
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+}
+
+@media (max-width: 760px) {
+  .contact { padding: 4rem 1.5rem 0; }
+  .contact__layout { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,15 @@
+<nav class="nav" [class.open]="menuOpen">
+  <a class="nav__logo" href="#">
+    <span class="nav__logo-script">sweetie</span>
+    <span class="nav__logo-caps">NAILS</span>
+  </a>
+  <ul class="nav__links" [class.open]="menuOpen">
+    <li><a href="#gallery" (click)="menuOpen=false">Gallery</a></li>
+    <li><a href="#services" (click)="menuOpen=false">Services</a></li>
+    <li><a href="#about" (click)="menuOpen=false">About</a></li>
+    <li><a href="#contact" (click)="menuOpen=false" class="nav__cta">Book Now</a></li>
+  </ul>
+  <button class="nav__burger" (click)="toggleMenu()" [attr.aria-expanded]="menuOpen">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
