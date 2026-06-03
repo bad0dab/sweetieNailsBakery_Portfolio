@@ -6,11 +6,13 @@ import { Gallery }  from '../components/gallery/gallery';
 import { Services } from './services/services';
 import { About }    from '../components/about/about';
 import { Contact }  from '../components/contact/contact';
+import { Player } from '../components/player/player';
+
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, Nav, Hero, Gallery, Services, About, Contact],
+  imports: [RouterOutlet, Nav, Hero, Gallery, Services, About, Contact,Player],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
