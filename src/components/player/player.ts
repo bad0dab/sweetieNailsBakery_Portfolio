@@ -1,4 +1,4 @@
-import { Component, Inject, PLATFORM_ID, NgZone, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, Inject, PLATFORM_ID, NgZone, ChangeDetectorRef, OnDestroy, AfterViewInit } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
 declare global {
@@ -21,7 +21,7 @@ interface Track {
   templateUrl: './player.html',
   styleUrl: './player.css'
 })
-export class Player implements OnDestroy {
+export class Player implements OnDestroy, AfterViewInit {
   minimized    = false;
   playing      = false;
   ready        = false;
@@ -30,7 +30,7 @@ export class Player implements OnDestroy {
   currentIndex = 0;
 
   posX = 24;
-  posY = 24;        
+  posY = 24;
   private dragging  = false;
   private moved     = false;
   private startMx   = 0;
@@ -47,7 +47,10 @@ export class Player implements OnDestroy {
   ];
 
   private player: any = null;
+  private playerCreated = false;
   private progressTimer: any = null;
+  private pollTimer: any = null;
+  private readyFallbackTimer: any = null;
 
   private moveHandler = (e: MouseEvent | TouchEvent) => this.onDragMove(e);
   private upHandler   = ()  => this.onDragEnd();
@@ -56,7 +59,9 @@ export class Player implements OnDestroy {
     @Inject(PLATFORM_ID) private platformId: object,
     private zone: NgZone,
     private cdr: ChangeDetectorRef
-  ) {
+  ) {}
+
+  ngAfterViewInit() {
     if (isPlatformBrowser(this.platformId)) {
       this.loadApi();
     }
@@ -85,7 +90,7 @@ export class Player implements OnDestroy {
 
   private onDragMove(e: MouseEvent | TouchEvent) {
     if (!this.dragging) return;
-    if ('touches' in e) e.preventDefault();          
+    if ('touches' in e) e.preventDefault();
     const point = 'touches' in e ? e.touches[0] : e;
     const dx = point.clientX - this.startMx;
     const dy = point.clientY - this.startMy;
@@ -106,38 +111,67 @@ export class Player implements OnDestroy {
     });
   }
 
-private onDragEnd() {
-  this.dragging = false;
-  if (!isPlatformBrowser(this.platformId)) return;
-  window.removeEventListener('mousemove', this.moveHandler);
-  window.removeEventListener('mouseup',   this.upHandler);
-  window.removeEventListener('touchmove', this.moveHandler);
-  window.removeEventListener('touchend',  this.upHandler);
-}
+  private onDragEnd() {
+    this.dragging = false;
+    if (!isPlatformBrowser(this.platformId)) return;
+    window.removeEventListener('mousemove', this.moveHandler);
+    window.removeEventListener('mouseup',   this.upHandler);
+    window.removeEventListener('touchmove', this.moveHandler);
+    window.removeEventListener('touchend',  this.upHandler);
+  }
 
   private loadApi() {
-    if (window.YT && window.YT.Player) { this.createPlayer(); return; }
+    if (typeof window.YT?.Player === 'function') {
+      this.createPlayer();
+      return;
+    }
+
     if (!document.getElementById('yt-iframe-api')) {
       const tag = document.createElement('script');
       tag.id  = 'yt-iframe-api';
       tag.src = 'https://www.youtube.com/iframe_api';
       document.body.appendChild(tag);
     }
+
     const prev = window.onYouTubeIframeAPIReady;
     window.onYouTubeIframeAPIReady = () => {
       if (prev) prev();
       this.createPlayer();
     };
+
+    this.pollTimer = setInterval(() => {
+      if (typeof window.YT?.Player === 'function') {
+        clearInterval(this.pollTimer);
+        this.pollTimer = null;
+        this.createPlayer();
+      }
+    }, 200);
+  }
+
+  private markReady() {
+    if (this.ready) return;
+    this.zone.run(() => {
+      this.ready = true;
+      this.cdr.detectChanges();
+    });
+    console.log('[player] ready =', this.ready);
   }
 
   private createPlayer() {
+    if (this.playerCreated) return;
+    if (typeof window.YT?.Player !== 'function') return;
+    if (!document.getElementById('yt-player')) return;
+    this.playerCreated = true;
+    console.log('[player] creating YT player');
+
     this.player = new window.YT.Player('yt-player', {
       videoId: this.current.videoId,
       playerVars: { controls: 0, disablekb: 1, playsinline: 1, rel: 0 },
       events: {
         onReady: (e: any) => {
-          e.target.setVolume(this.volume);
-          this.zone.run(() => { this.ready = true; this.cdr.detectChanges(); });
+          console.log('[player] onReady fired');
+          try { e.target.setVolume(this.volume); } catch {}
+          this.markReady();
         },
         onStateChange: (e: any) => {
           const S = window.YT.PlayerState;
@@ -150,35 +184,49 @@ private onDragEnd() {
         }
       }
     });
+
+    // Safety net: if onReady never fires but the methods exist, enable anyway.
+    this.readyFallbackTimer = setInterval(() => {
+      if (typeof this.player?.playVideo === 'function') {
+        clearInterval(this.readyFallbackTimer);
+        this.readyFallbackTimer = null;
+        console.log('[player] enabled via fallback');
+        this.markReady();
+      }
+    }, 300);
   }
 
   togglePlay() {
-    if (!this.player) return;
+    if (typeof this.player?.playVideo !== 'function') return;
     this.playing ? this.player.pauseVideo() : this.player.playVideo();
   }
 
   next() {
+    if (typeof this.player?.loadVideoById !== 'function') return;
     this.currentIndex = (this.currentIndex + 1) % this.tracks.length;
-    this.player?.loadVideoById(this.current.videoId);
+    this.player.loadVideoById(this.current.videoId);
   }
 
   prev() {
-    if (this.player?.getCurrentTime && this.player.getCurrentTime() > 3) {
+    if (typeof this.player?.loadVideoById !== 'function') return;
+    if (this.player.getCurrentTime && this.player.getCurrentTime() > 3) {
       this.player.seekTo(0, true);
       return;
     }
     this.currentIndex = (this.currentIndex - 1 + this.tracks.length) % this.tracks.length;
-    this.player?.loadVideoById(this.current.videoId);
+    this.player.loadVideoById(this.current.videoId);
   }
 
   setVolume(e: Event) {
     this.volume = +(e.target as HTMLInputElement).value;
-    this.player?.setVolume(this.volume);
+    if (typeof this.player?.setVolume === 'function') {
+      this.player.setVolume(this.volume);
+    }
   }
 
   seek(e: MouseEvent) {
-    if (this.moved) return;           
-    if (!this.player?.getDuration) return;
+    if (this.moved) return;
+    if (typeof this.player?.getDuration !== 'function') return;
     const dur = this.player.getDuration();
     if (!dur) return;
     const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
@@ -186,14 +234,14 @@ private onDragEnd() {
   }
 
   toggleMinimize() {
-    if (this.moved) return;            
+    if (this.moved) return;
     this.minimized = !this.minimized;
   }
 
   private startProgressTimer() {
     this.stopProgressTimer();
     this.progressTimer = setInterval(() => {
-      if (!this.player?.getDuration) return;
+      if (typeof this.player?.getDuration !== 'function') return;
       const dur = this.player.getDuration();
       const cur = this.player.getCurrentTime();
       this.zone.run(() => {
@@ -209,6 +257,8 @@ private onDragEnd() {
 
   ngOnDestroy() {
     this.stopProgressTimer();
+    if (this.pollTimer) { clearInterval(this.pollTimer); this.pollTimer = null; }
+    if (this.readyFallbackTimer) { clearInterval(this.readyFallbackTimer); this.readyFallbackTimer = null; }
     this.onDragEnd();
     this.player?.destroy?.();
   }
