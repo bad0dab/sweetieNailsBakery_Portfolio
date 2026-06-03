@@ -106,13 +106,14 @@ export class Player implements OnDestroy {
     });
   }
 
-  private onDragEnd() {
-    this.dragging = false;
-    window.removeEventListener('mousemove', this.moveHandler);
-    window.removeEventListener('mouseup',   this.upHandler);
-    window.removeEventListener('touchmove', this.moveHandler);
-    window.removeEventListener('touchend',  this.upHandler);
-  }
+private onDragEnd() {
+  this.dragging = false;
+  if (!isPlatformBrowser(this.platformId)) return;
+  window.removeEventListener('mousemove', this.moveHandler);
+  window.removeEventListener('mouseup',   this.upHandler);
+  window.removeEventListener('touchmove', this.moveHandler);
+  window.removeEventListener('touchend',  this.upHandler);
+}
 
   private loadApi() {
     if (window.YT && window.YT.Player) { this.createPlayer(); return; }
