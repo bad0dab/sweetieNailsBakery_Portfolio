@@ -80,8 +80,9 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
   display: block;
-  transform: scale(1.35);
+  transform: scale(1.08);
   border-radius: 62% 38% 54% 46% / 52% 44% 56% 48%;
 }
 
