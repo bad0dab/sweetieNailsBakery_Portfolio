@@ -176,3 +176,8 @@ button:disabled {
   cursor: not-allowed;
   transform: none !important;
 }
+.form-hint {
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin-top: 0.4rem;
+}

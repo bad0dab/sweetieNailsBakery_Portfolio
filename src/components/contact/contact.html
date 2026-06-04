@@ -16,7 +16,13 @@
             </div>
             <div class="form-group">
               <label>Email</label>
-              <input type="email" placeholder="pusheen@example.com" required [(ngModel)]="email" name="email" />
+
+              @if (emailLocked()) {
+                <input type="email" [value]="email()" name="email" readonly />
+              } @else {
+                <div id="google-signin"></div>
+                <p class="form-hint">Sign in with Google to fill your email automatically.</p>
+              }
             </div>
           </div>
           <div class="form-group">

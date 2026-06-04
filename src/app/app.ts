@@ -8,11 +8,10 @@ import { About }    from '../components/about/about';
 import { Contact }  from '../components/contact/contact';
 import { Player } from '../components/player/player';
 
-
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, Nav, Hero, Gallery, Services, About, Contact,Player],
+  imports: [RouterOutlet, Nav, Hero, Gallery, Services, About, Contact, Player],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
