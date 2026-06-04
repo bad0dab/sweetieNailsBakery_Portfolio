@@ -240,10 +240,6 @@
   background: var(--lavender);
 }
 
-/* ============================================================
-   Responsive
-   ============================================================ */
 @media (max-width: 680px) {
-  .player__body { width: 220px; }
-  .player__controls { gap: 0.95rem; }
+  .player { display: none; }
 }
