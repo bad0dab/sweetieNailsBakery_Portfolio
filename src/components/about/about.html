@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.3.2/css/flag-icons.min.css" />
+
 <div class="about-wrapper" id="about">
   <div class="about">
     <div class="about__visual">
@@ -14,15 +16,27 @@
       </div>
     </div>
     <div class="about__content">
-      <p class="section-eyebrow">The Artist</p>
-      <h2 class="section-title">Hello, I'm <em>Bri</em></h2>
-    <div class="about__text">
-    <ul>
-        <li>18</li>
-        <li>Pusheen lover</li>
-        <li>That's all you wanna know about me</li>
-    </ul>
-</div>
+      <p class="section-eyebrow">Who I am</p>
+      <h2 class="section-title">
+        <span class="about__greet">
+          @for (g of [greeting()]; track g) {
+          <span class="about__greet-word">{{ g }}</span>
+          }
+        </span>, I'm <em>Bri</em>
+      </h2>
+      <div class="about__text">
+        <ul>
+
+          <li>{{ age() }} years old</li>
+          <li>Pusheen lover</li>
+          <li style="display: flex; align-items: center; gap: 8px;">
+            <span class="fi fi-pe"></span>
+            <span class="fi fi-it"></span>
+
+            <span class="fi fi-us"></span>
+          </li>
+        </ul>
+      </div>
       <div class="about__stats">
         <div class="stat">
           <span class="stat__num">N/A</span>
